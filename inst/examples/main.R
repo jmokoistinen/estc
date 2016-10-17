@@ -8,10 +8,10 @@ load_all()
 
 # I/O definitions
 # make daily output folders TODO convert into function -vv
-today.str <- as.character(Sys.Date())
-output.folder <- paste("output.tables/", today.str, "/", sep = '')
+# today.str <- as.character(Sys.Date())
+# output.folder <- paste("output.tables/", today.str, "/", sep = '')
 # old version:
-# output.folder <- "output.tables/"
+output.folder <- "output.tables/"
 dir.create(output.folder)
 
 # List preprocessed data files
@@ -23,7 +23,7 @@ catalog <- "estc"
 languages <- c("english", "latin")
 
 # Cores
-mc.cores <- 4
+mc.cores <- 3
 
 # Update selected fields only -
 # comment out if not needed
