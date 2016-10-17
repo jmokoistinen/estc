@@ -33,22 +33,12 @@ ui <- shinyUI(fluidPage(
                       width = NULL)
       ),
       
+      # Show a plot of the generated distribution
       mainPanel(
-        tabsetPanel(
-          tabPanel("All titles",
-                   plotOutput("year_plot")),
-          tabPanel("Hits / Year",
-                   plotOutput("hits_plot")),
-          tabPanel("Freq. hits / Year",
-                   plotOutput("hits_averages_plot")),
-          tabPanel("Top 10 authors",
-                   plotOutput("hits_authors_plot"))
-        )
-        # 
-        # textOutput("text_debug"),
-        #  plotOutput("year_plot"),
-        #  plotOutput("hits_plot"),
-        #  plotOutput("hits_averages_plot")
+         textOutput("text_debug"),
+         plotOutput("year_plot"),
+         plotOutput("hits_plot"),
+         plotOutput("hits_averages_plot")
       )
    )
 ))
@@ -102,7 +92,6 @@ server <- shinyServer(function(input, output) {
       subset(publications_yearly, years >= input_years[1] &
              years <= input_years[2])
     keyword <- input$keyword_search
-    
     yearly_hits <- get_hits_yearly(catalog_data, input_years, keyword)   
     yearly_hits["total_publications"] <- publications_yearly_subset[2]
     yearly_hits["averages"] <-
@@ -113,19 +102,8 @@ server <- shinyServer(function(input, output) {
           geom = c("point", "smooth"))
   })
   
-  output$hits_authors_plot <- renderPlot({
-    input_years <- c(input$range_years[1], input$range_years[2])
-    keyword <- input$keyword_search
-    
-    top_10_authors <- get_hits_per_author(catalog_data,
-                                          input_years,
-                                          keyword,
-                                          publications_yearly)
-    
-    qplot(author, data = top_10_authors, geom = "bar",
-          weight = hits)
-  })
-
+  
+       
 })
 
 # Run the application 
