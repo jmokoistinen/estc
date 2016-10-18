@@ -1,17 +1,17 @@
 library(devtools)
 library(dplyr)
 library(sorvi)
-load_all("../../../bibliographica/")
+load_all("bibliographica")
 library(bibliographica)
 load_all()
 
 
 # I/O definitions
 # make daily output folders TODO convert into function -vv
-today.str <- as.character(Sys.Date())
-output.folder <- paste("output.tables/", today.str, "/", sep = '')
+# today.str <- as.character(Sys.Date())
+# output.folder <- paste("output.tables/", today.str, "/", sep = '')
 # old version:
-# output.folder <- "output.tables/"
+output.folder <- "output.tables/"
 dir.create(output.folder)
 
 # List preprocessed data files
@@ -23,7 +23,7 @@ catalog <- "estc"
 languages <- c("english", "latin")
 
 # Cores
-mc.cores <- 4
+mc.cores <- 3
 
 # Update selected fields only -
 # comment out if not needed
@@ -39,20 +39,17 @@ ignore.fields <- c("title_uniform", "title_uniform2") # ESTC
 #            LOAD DATA FOR PREPROCESSING
 # ----------------------------------------------------
 
-
-# reload.data <- FALSE
 source(system.file("extdata/init.R", package = "bibliographica"))
 # all the source calls just load functions now
 
 # load initial data
-df.orig <- load_initial_datafile(fs, ignore.fields, reload.data = FALSE)
+reload.data <- FALSE
+df.orig <- load_initial_datafile(fs, ignore.fields, reload.data)
 # returns: df.orig
 
 # Test with small data test set
 # df.orig <- df.orig[sample(1:nrow(df.orig), 1000),] # random 1000
 # df.orig <- df.orig[1:1000, ] # first 1000
-
-
 
 # load data for preprocessing
 data.preprocessing <- get_preprocessing_data(df.orig, 
@@ -76,7 +73,7 @@ source(system.file("extdata/preprocessing.R", package = "bibliographica"))
 data.preprocessed <- preprocess_data(data.preprocessing, 
                                      df.orig,
                                      languages, 
-                                     mc.cores = 4)
+                                     mc.cores = mc.cores)
 rm(data.preprocessing)
 # returns list of 3 (df.preprocessed, update.fields, conversions)
 
