@@ -12,278 +12,27 @@ polish_publisher_forby <- function (x) {
   #x=df100$publisher
   x <- as.character(x)
   xorig <- x
-  #x="[s.n.]"
+  #x1="[s.n.]"
   x1 <- tolower(x)
-  x1 = gsub("\\[sic\\] "," ",x1)
-  x1 = gsub(" sic "," ",x1) 
-  
-  x1 = gsub(" \\["," ",x1)
-  x1 = gsub("\\[","",x1)
-  x1 = gsub("\\]  "," ",x1)
-  x1 = gsub("\\]","",x1)
   
   
-  #x1 <- gsub("\\[", "", x)
-  #x1 <- gsub("\\]", "", x1)
-  #x1 <- gsub("\\.$", "", x1)
-  #x1 <- gsub("\\,$", "", x1)
-  #x1 <- gsub("^s\\.n$", "s\\.n\\.", x1)
-  
+  #reading data to gsub
+  con <- file("data/replaces1.txt", open = "r")
+  xreplace1lines <- readLines(con)
+  xreplace1 <- strsplit(xreplace1lines, split="#")
 
-  
+  for(i in 1:length(xreplace1)){
+    #print(i)
+    #print(xreplace1[[i]][1])
+    #print(xreplace1[[i]][2])
+    x1 = gsub(xreplace1[[i]][1],xreplace1[[i]][2],x1)
+    #x1 = gsub("\\[","",x1)
+    #x1 = gsub("\\[sic\\]","",x1)
+    #x1 = gsub("[sic]","",x1)
     
-  x1 = gsub(" \\("," ",x1)
-  x1 = gsub("\\(","",x1)
-  x1 = gsub("\\)","",x1)  
-  x1 = gsub("\\) "," ",x1)  
-  x1 = gsub("\\? "," ",x1)  
-  x1 = gsub("\\?","",x1)  
-  
-  # Change print statements into lowercase
-  
-  x1 = gsub(" & by "," by ",x1) 
-  x1 = gsub(" by, "," by ",x1) 
-  x1 = gsub(" by. "," by ",x1) 
-  x1 = gsub(" byr "," by ",x1) 
-  x1 = gsub(" byor "," by ",x1) 
-  x1 = gsub(" byh "," by ",x1) 
-  x1 = gsub(" by: "," by ",x1) 
-  x1 = gsub(" for, "," for ",x1) 
-  x1 = gsub(" for. "," for ",x1) 
-  
-  x1 = gsub("printed, ","printed ",x1)
-  x1 = gsub("printed: ","printed ",x1)
-  x1 = gsub("printed; ","printed ",x1)
-
-  x1 = gsub("imprimé pour ","printed for ",x1) #?
-  x1 = gsub("imprimé par ","printed by ",x1)
-  x1 = gsub("imprimée pour ","printed for ",x1) #?
-  x1 = gsub("imprimée par ","printed by ",x1)
-  
-  x1 = gsub("imprimé et vendu par ","printed and sold by ",x1)
-  x1 = gsub("imprimé dans l'an ","printed in the year ",x1)
-
-  x1 = gsub("imprimé à ","printed at ",x1)
-  
-  
-  x1 = gsub("impensis, ","impensis ",x1) #? latin
-  
-  x1 = gsub("impensis ","printed by ",x1) #? latin
-  
-  
-  x1 = gsub("imprimée ehez ","printed by and for ",x1) #?chez
-  x1 = gsub("printed by chez ","printed by and for ",x1)
-  x1 = gsub("printed for and by ","printed by and for ",x1) #??
-  x1 = gsub("printed for \\(and by ","printed by and for ",x1) #??
-
-  x1 = gsub("printed forj. ","printed for j. ",x1)
-  x1 = gsub("printed for-","printed for ",x1)
-  x1 = gsub("printed or ","printed for ",x1)
-  x1 = gsub("printed fo ","printed for ",x1)
-  
-  x1 = gsub("printed for.","printed for ",x1)
-  x1 = gsub("printed, by ","printed by ",x1)
-  x1 = gsub("by printed ","printed by ",x1)
-  x1 = gsub("printedby ","printed by ",x1)
-  x1 = gsub("printed \\(by ","printed by ",x1)
-  x1 = gsub("printed, \\(by ","printed by ",x1)
-  x1 = gsub("printed \\[by ","printed by ",x1)
-  x1 = gsub("printed---by ","printed by ",x1)
-  x1 = gsub("printed aby ","printed by ",x1)
-  x1 = gsub("print by ","printed by ",x1)
-  x1 = gsub("pr.by ","printed by ",x1)
-  x1 = gsub("imprimted[sic]by ","printed by ",x1)
-  
-  
-  #if contains printed then is not changed??
-  x1 = gsub("imprinted ","printed ",x1)#
-  x1 = gsub("re-printed ","reprinted ",x1)# epossibly "london: reprinted" to -> reprinted london??
-  
-  x1 = gsub("printed bu ","printed by ",x1)
-  x1 = gsub("printed hy ","printed by ",x1)
-  
-  x1 = gsub("printed br ","printed by ",x1)
-  x1 = gsub("printed bee ","printed by ",x1)
-  x1 = gsub("printad ","printed ",x1)
-  
-  x1 = gsub("chèz ","printed for ",x1)
-  x1 = gsub("ches ","printed for ",x1)
-  x1 = gsub("chés ","printed for ",x1)
-  x1 = gsub("chés ","printed for ",x1)
-  x1 = gsub("chéz ","printed for ",x1)
-  x1 = gsub("chez, ","printed for ",x1)
-  x1 = gsub("chez. ","printed for ",x1)
-  x1 = gsub("chez-","printed for ",x1)
-  x1 = gsub("chez\\.\\.","printed for ",x1)
-  x1 = gsub("chez ","printed for ",x1)
-  
-  #printed for and published by
-  x1 = gsub("printed for, and published by ","printed by and for ",x1) 
-  x1 = gsub("printed for and published by ","printed by and for ",x1)
-  x1 = gsub("printed for, and published by, ","printed by and for ",x1)
-  
-  # Preprocessing [printed and sold by] 
-  x1 = gsub("sold by-","sold by ",x1) 
-  x1 = gsub("sold, ","sold ",x1) 
-  
-  x1 = gsub("printed, and for sale ","printed and sold by ",x1)
-  x1 = gsub("and are to be sold by ","and sold by ",x1) #
-  
-  
-  
-  x1 = gsub(", and are to be sold by "," and sold by ",x1) #
-  x1 = gsub(", and sold by "," and sold by ",x1)
-  x1 = gsub("; and sold by "," and sold by ",x1)
-  x1 = gsub("rinted  and sold ","printed and sold by ",x1)
-  x1 = gsub("printed: and sold by ","printed and sold by ",x1)
-  x1 = gsub("printed, and sold by ","printed and sold by ",x1)
-  x1 = gsub("printed, and sold at ","printed and sold by at ",x1)
-  x1 = gsub("printed, and sold in ","printed and sold by in ",x1)
-  x1 = gsub("printed and sold at ","printed and sold by at ",x1)
-  x1 = gsub("printed and sold in ","printed and sold by in ",x1)
-  
-    
-  
-  x1 = gsub("printed for, and sold by ","printed for and sold by ",x1)
-  x1 = gsub("printed for, and sold by, ","printed for and sold by ",x1)
-  x1 = gsub("printed for & sold by in: ","printed for and sold by ",x1)
-  x1 = gsub("printed for & sold by tho: ","printed for and sold by ",x1)
-  x1 = gsub("printed for and sold b ","printed for and sold by ",x1)
-  x1 = gsub("printed for and sold only by ","printed for and sold by ",x1)
-  x1 = gsub("printed for and are to sold sic by ","printed for and sold by ",x1)
-  x1 = gsub("printed for & sold by ","printed for and sold by ",x1)
-  x1 = gsub("printed for & sold at ","printed for and sold by at ",x1)
-  x1 = gsub("printed for sold by","printed for and sold by ",x1)
-  x1 = gsub("gedruckt im jahr","printed in the year ",x1)
-  
-  #x1 = gsub("au coin ","corner of ",x1)
-  x1 = gsub("aux depens ","aux depen ",x1)
-  x1 = gsub("aux dépens ","aux depen ",x1)
-  x1 = gsub("aux dépends ","aux depen ",x1)
-  x1 = gsub("aux depends ","aux depen ",x1)
-  x1 = gsub("aux d\'epens ","aux depen ",x1)
-  x1 = gsub("aux de\'pens ","aux depen ",x1)
-  x1 = gsub("aux depen des ","aux depen de ",x1)
-  x1 = gsub("aux depen d\'une ","aux depen de ",x1)
-  
-  x1 = gsub("aux depen de la comp. ","printed for company ",x1)
-
-  x1 = gsub("aux depen de l\'auteur","printed for author",x1)
-  x1 = gsub("aux depen de la compagnie","printed for company",x1)
-  x1 = gsub("aux depen de au traducteur","printed for translator",x1)
-  
-  x1 = gsub("aux depen du ","aux depen de ",x1)
-  x1 = gsub("aux depen de la ","printed for ",x1)
-  x1 = gsub("aux depen de ","printed for ",x1)
-  x1 = gsub("aux depen ","printed for ",x1)
-  x1 = gsub("auf kosten des ","printed for ",x1)
-  
-  
-  
-  x1 = gsub("si vende ","sold by ",x1)
-  x1 = gsub("trovasi ","sold by ",x1)
-  x1 = gsub("catalogues to be had at the place of sale ","sold by ",x1)
-  x1 = gsub("catalogues to be had ","sold by ",x1)
-  x1 = gsub("ne se vend qu'à ","sold by ",x1)
-  
-  
-  x1 = gsub("argraphwyd ","argraffwyd ",x1)
-  x1 = gsub("argraphedig ","argraffwyd ",x1)
-  x1 = gsub("argraphwyd, ","argraffwyd ",x1)
-  
-  x1 = gsub("argraffwyd ac ar werth ","printed and sold by ",x1)
-  x1 = gsub("argraffwyd ac ar","printed and sold by ",x1) 
-  x1 = gsub("argraffwyd dros","printed for ",x1)
-  x1 = gsub("argraffwyd gan ","printed by ",x1)
-  x1 = gsub("argraffwyd yn ","printed by ",x1)
-  x1 = gsub("argraffwyd yng ","printed by ",x1)
-  x1 = gsub("argraffwyd yn y flwyddyn","printed in the year ",x1) 
-  x1 = gsub("argraphedig yn ","printed by ",x1)
-  x1 = gsub("ac ar werth yno gan ","printed and sold by ",x1)
- 
-  
- 
-  x1 = gsub("argraffwyd yn y flwyddyn","printed in the year ",x1) 
-  x1 = gsub("argraphedig yn ","printed by ",x1)
-  x1 = gsub("ac ar werth yno gan ","printed and sold by ",x1)
-
-  
-  x1 = gsub("de l\'imprimerie ","printed by ",x1)
-  
-  x1 = gsub("en casa del ","printed by ",x1)
-  x1 = gsub("en la imprenta de ","printed by ",x1)
-  x1 = gsub("excudebant ","printed by ",x1)
-  x1 = gsub("excudebad ","printed by ",x1)
-  x1 = gsub("excudebat ","printed by ",x1)
-  x1 = gsub("excuderunt ","printed by ",x1)
-  x1 = gsub("excudêrunt ","printed by ",x1)
-  x1 = gsub("excudit ","printed by ",x1)
-  x1 = gsub("excudunt ","printed by ",x1)
-  x1 = gsub("excusa ","printed by ",x1)
-  x1 = gsub("ex offica ","printed by ",x1)
-  x1 = gsub("ex ","printed by ",x1) #??
-  x1 = gsub("from the press of ","printed by ",x1)
-  x1 = gsub("presso ","printed by ",x1)
-  
-  
-  x1 = gsub("printer ","printed by ",x1) # ?? before field
-  x1 = gsub("printers ","printed by ",x1) # ?? before field
-  
-  x1 = gsub("gedruckt und verlegt bey ","printed by ",x1)
-  x1 = gsub("gedrukt tot ","printed at ",x1) #? latin
-  
-  x1 = gsub("in fletestrete","at fletestrete ",x1)
- 
-  x1 = gsub("and are to be sold at","sold by at ",x1)  
-  
-  ############
-  
-  x1 = gsub("gedruckt bey und zu finden bey","printed by ",x1)
-  x1 = gsub("gedruckt bey ","printed by ",x1)
-  x1 = gsub("excusum per","printed by ",x1)
-  x1 = gsub("imprimés a londres","printed at london ",x1)
-  x1 = gsub("trykt hos","printed by ",x1) #danish
-  
-  
-
-  
-  
-  x1 = gsub("appresso ","printed by ",x1)
-  x1 = gsub("apud ","printed by ",x1)
-  x1 = gsub("e prelo ","printed ",x1)
-  
-  
-  x1 = gsub("printed at ","printed by at ",x1)
-  x1 = gsub("printed in ","printed by in ",x1)
-  x1 = gsub("printed from ","printed by ",x1)
-
-  x1 = gsub("be ropert lekpreuik","printed by ropert lekpreuik",x1)
-  x1 = gsub("VVinandi de VVorde","Winandi de Worde",x1)
-  x1 = gsub("In edibus","In ædibus",x1)
-  x1 = gsub("In ædibus ","printed by ",x1)
-  
-  x1 = gsub("gan ","printed by ",x1) #argraphwyd
-  
-  x1 = gsub("typis ","printed by ",x1) #argraphwyd
-  x1 = gsub("gedrukt ","printed by ",x1) #? latin
-  
-  x1 = gsub("printed and sold, ","printed and sold by ",x1) 
-  
-  #x1 = gsub("sold ","printed by ",x1) #argraphwyd
-  
-  #x1 = gsub("printed and sold at ","printed and sold by at ",x1)
-  #x1 = gsub(" and sold by ","and sold by ",x1)
-  #x1 = gsub(" , and sold at "," and sold by at ",x1)
-
-  #for(ind2 in 1:length(x1)){
-  #  if(!grepl("sold by ",x1[ind2]) & grepl(" and sold",x1[ind2])){
-  #    x1[ind2] = gsub(" and sold, "," sold by ",x1[ind2])
-  #    x1[ind2] = gsub("; and sold "," sold by ",x1[ind2])
-  #x1 = gsub("printed for, and sold ","printed for and sold by ",x1)
-  #x1 = gsub("printed for and sold ","printed for and sold by ",x1)
-  #  }
-  #}
-
+  }
+  #xreplace1[[i]][1]=="\\[sic\\] "
+  close(con)
   #if first words are for or by -> printed for or printed by  
   for(ind2 in 1:length(x1)){
       s1=strsplit(x1[ind2],' ')
@@ -299,9 +48,6 @@ polish_publisher_forby <- function (x) {
       x1[ind2]=gsub("for ","printed for ",x1[ind2]) 
     }
   }
-  
-  
-  
   
 
   # Search for special fields: 
@@ -322,6 +68,8 @@ polish_publisher_forby <- function (x) {
       x1[ind22]=paste("printed by ",x1[ind22])     
     } 
   }
+  
+  
   x1 = gsub("sold at ","sold by at ",x1)
   x1 = gsub("sold in ","sold by at ",x1)
   x1 = gsub("sold only in ","sold by at ",x1)
